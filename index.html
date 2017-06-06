@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>โปรแกรมตัดเกรดออนไลน์</title>
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/typeahead.bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/search.css">
+
+    <style>
+        td {
+            padding: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" align="center">
+        <h1>โปรแกรมตัดเกรดออนไลน์</h1>
+        <form action="check.php" method='post' target="_blank" enctype='multipart/form-data' onsubmit="return validateForm()">
+
+            <!-- ฟอร์มพื้นฐาน -->
+
+            <div id="nav">
+                <button id="btn1" class="place active" value="sut">มทส.</button>
+                <button id="btn2" class="place" value="other">สถานศึกษาอื่น</button>
+                <input id="sut" name="place" type="hidden" value="sut">
+                <input id="other" name="place" type="hidden" value="other" disabled>
+            </div>
+
+            <!-- ฟอร์ม มทส. -->
+
+            <div id="infoSut">
+                <br>
+                <table>
+                    <tr>
+                        <td><label><b>Academic Year : </b></label></td>
+                        <td><select name="term">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select> /
+                            <div id="year" style="display: inline;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label><b>Institutes of : </b></label></td>
+                        <td>
+                            <select onchange="getMajor(this.value)" name="institutes">
+                                <option value="1">Science</option>
+                                <option value="2">Social Technology</option>
+                                <option value="3">Agricultural Technology</option>
+                                <option value="4">Engineering</option>
+                                <option value="5">Medicine</option>
+                                <option value="6">Nursing</option>
+                                <option value="7">Dentistry</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label><b>School of : </b></label></td>
+                        <td>
+                            <div id="school">
+                                <select disabled="1">
+                                    <option>No</option>
+                                </select>
+                            </div>
+                            <div id="nschool" style="display: none; margin-top: 5px;">
+                                <input id="school2" class="typeahead" type="text" name="oschool" placeholder="Assign">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label><b>Course Code : </b></label></td>
+                        <td><input id="subId" class="typeahead" type="text" name="subId" placeholder="Course Code"></td>
+                    </tr>
+                    <tr>
+                        <td><label><b>Course Title : </b></label></td>
+                        <td><input id="subjects" class="typeahead" type="text" name="subjects" placeholder="Course Title"></td>
+                    </tr>
+                    <tr>
+                        <td><label><b>Number of Credit : </b></label></td>
+                        <td>
+                            <select name="credit">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label><b>Instructor : </b></label></td>
+                        <td><input id="instructor" class="typeahead" type="text" name="instructor" placeholder="Instructor"></td>
+                    </tr>
+                </table>
+                <br>
+                <table>
+                    <tr>
+                        <td align="right"><b>Marking Scheme</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Attendance :</td>
+                        <td><input id="mark1" onchange="marking(this.id)" name="attendance" type="number" min="0" max="100" value="0"> %</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Midterm Exam:</td>
+                        <td><input id="mark2" onchange="marking(this.id)" name="midterm" type="number" min="0" max="100" value="0"> %</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Assignment / Work :</td>
+                        <td><input id="mark3" onchange="marking(this.id)" name="assignment" type="number" min="0" max="100" value="0"> %</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Report :</td>
+                        <td><input id="mark4" onchange="marking(this.id)" name="report" type="number" min="0" max="100" value="0"> %</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Final Exam :</td>
+                        <td><input id="mark5" onchange="marking(this.id)" name="final" type="number" min="0" max="100" value="0"> %</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Total :</td>
+                        <td><input id="total" name="total" type="number" min="0" max="100" value="0" readonly> %</td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+
+
+            <!-- ฟอร์ม สถาบันอื่น -->
+
+            <div id="infoOther" style="display: none;">
+                <table>
+                    <tr>
+                        <td><label><b>ภาคการศึกษา : </b></label></td>
+                        <td><select name="term2">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select> /
+                            <div id="year2" style="display: inline;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label><b>รหัสวิชา : </b></label></td>
+                        <td><input id="subId2" class="typeahead" type="text" name="subId2" placeholder="รหัสวิชา"></td>
+                    </tr>
+                    <tr>
+                        <td><label><b>ชื่อวิชา : </b></label></td>
+                        <td><input id="subjects2" class="typeahead" type="text" name="subjects2" placeholder="ชื่อวิชา"></td>
+                    </tr>
+                    <tr>
+                        <td><label><b>ระดับชั้น : </b></label></td>
+                        <td><input class="typeahead" type="text" name="level" placeholder="ระดับชั้น (ถ้ามี)"></td>
+                    </tr>
+                    <tr>
+                        <td><label><b>ชื่อผู้สอน : </b></label></td>
+                        <td><input id="instructor2" class="typeahead" type="text" name="instructor2" placeholder="ชื่อผู้สอน"></td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+
+
+            <!-- การตัดเกรด -->
+
+            <table>
+                <tr>
+                    <td><label><b>ตัดเกรดแบบ : </b></label></td>
+                    <td><input id="tscore" type="radio" name="ctype" value="tscore" checked="1">T-Score
+                        <input id="myscore" type="radio" name="ctype" value="myscore">กำหนดเอง
+                    </td>
+                </tr>
+                <tr>
+                    <td><label><b>รูปแบบเกรด : </b></label></td>
+                    <td>
+                        <select id="gtype" onchange="getGtype(this.value)" name="gtype">
+                            <option value="eng8, one:A:80, two:B+:75, three:B:70, four:C+:65, five:C:60, six:D+:55, seven:D:50, eight:F:0">A, B+, B, C+, C, D+, D, F</option>
+                            <option value="eng6, one:A:80, two:B+:70, three:B:60, four:C+:50, five:C:40, six:F:0">A, B+, B, C+, C, F</option>
+                            <option value="eng5, one:A:80, two:B:70, three:C:60, four:D:50, five:F:0">A, B, C, D, F</option>
+                            <option value="digit8, one:4:80, two:3.5:75, three:3:70, four:2.5:65, five:2:60, six:1.5:55, seven:1:50, eight:0:0">4, 3.5, 3, 2.5, 2, 1.5, 1, 0</option>
+                            <option value="digit5, one:4:80, two:3:70, three:2:60, four:1:50, five:0:0">4, 3, 2, 1, 0</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- แสดงเกณฑ์คะแนน -->
+            <div id="point"></div>
+
+
+            <!-- อัพโหลดไฟล์ -->
+
+            <br>
+            <table>
+                <tr>
+                    <td><label><b>อัพโหลดไฟล์ : </b></label></td>
+                    <td><input id="myfile" type="file" name="filepoint">
+                        <!--<div class="tooltip">รูปแบบไฟล์
+                            <span class="tooltiptext"><img src="assets/example.png"></span>
+                        </div>-->
+                        <div id="example">รูปแบบไฟล์</div>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button id="submit" class="btn" type="submit" name="submit" value="submit">คำนวณเกรด</button>
+        </form>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="assets/example.png">
+        </div>
+    </div>
+
+    <!-- script ที่เกี่ยวข้อง -->
+
+    <script src="assets/subjects.js"></script>
+    <script src="assets/major.js"></script>
+    <script src="assets/main.js"></script>
+
+    <script>
+        var year = new Date().getFullYear();
+        var t1 = "<select name='year'>";
+        var t2 = "<select name='year2'>";
+        var v = "<option value='" + (year + 541) + "'>" + (year + 541) + "</option>\
+                <option value='" + (year + 542) + "'>" + (year + 542) + "</option>\
+                <option value='" + (year + 543) + "'>" + (year + 543) + "</option></select>";
+        document.getElementById('year').innerHTML = t1 + v;
+        document.getElementById('year2').innerHTML = t2 + v;
+
+        var modal = document.getElementById('myModal');
+        var btn = document.getElementById("example");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

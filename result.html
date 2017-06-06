@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>โปรแกรมตัดเกรดออนไลน์</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/Chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+
+    <style>
+        table.tb {
+            border: 1px solid #888;
+            border-collapse: collapse;
+        }
+        
+        th.tdsort:hover {
+            color: #fff;
+            background-color: #e74c3c;
+            cursor: pointer;
+        }
+        
+        td,
+        th {
+            padding: 2px;
+            border: 1px solid #888;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #eee;
+            padding: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav" align="center"></div>
+    <br>
+    <div id="btnControl" align="center">
+        <div id="showStatistics"></div>
+        <div id="showChart" align="center" style="display: none;">
+            <b><div id="gn"></div></b>
+            <div style="width: 60%;">
+                <canvas id="myGradeChart"></canvas>
+            </div>
+            <b><div id="gp"></div></b>
+            <div style="width: 50%;">
+                <canvas id="myGradePercenChart"></canvas>
+            </div>
+        </div>
+        <div id="showCal" align="center" style="display: none;"></div>
+        <div id="showData" align="center" style="display: none;">
+            <div id="list"></div>
+            <div id="selPage"></div>
+            <div id="br"></div>
+            <div id="show"></div>
+            <div id="selPage2"></div>
+        </div>
+        <div id="br2"></div>
+    </div>
+
+    <script src="assets/display.js"></script>
+</body>
+
+</html>
