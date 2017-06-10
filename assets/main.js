@@ -203,7 +203,9 @@ function checkSchool(v) {
 function marking(id) {
     var total = 0;
     for (var i = 1; i < 6; i++) {
-        total += parseInt(document.getElementById('mark' + i).value);
+        var x = document.getElementById('mark' + i);
+        if (x.value == '' || parseInt(x.value) < 0) x.value = '0';
+        total += parseInt(x.value);
     }
     if (total > 100) {
         total -= parseInt(document.getElementById(id).value);
@@ -262,7 +264,8 @@ function validateForm() {
     }
 
     var myfile = document.getElementById('myfile');
-    if (myfile.files.length == 0 || myfile.value.split(".").pop().toLowerCase() != "xlsx") {
+    var t = myfile.value.split(".").pop().toLowerCase();
+    if (myfile.files.length == 0 || (t != "xlsx" && t != "xls")) {
         validate = false;
         txtAlert += txtFile;
     }

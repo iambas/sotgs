@@ -72,14 +72,21 @@ class WriteDataToExcel
 	public function sut($act)
 	{
 		$obj = $this->obj;
+		$osx = 0;
+		if($obj->institutes == "Engineering"){
+			$path = 'assets/logo.png';
+		}else{
+			$path = 'assets/sut_logo.jpg';
+			$osx = 13;
+		}
 		// Add a drawing to the worksheet
 		$objDrawing = new PHPExcel_Worksheet_Drawing();
 		$objDrawing->setName('logo');
 		$objDrawing->setDescription('logo');
-		$objDrawing->setPath('assets/logo.png');
-		$objDrawing->setHeight(125);
+		$objDrawing->setPath($path);
+		$objDrawing->setHeight(135);
 		$objDrawing->setCoordinates('E1');
-		$objDrawing->setOffsetX(10);
+		$objDrawing->setOffsetX($osx);
 		$objDrawing->setWorksheet($this->objPHPExcel->getActiveSheet());
 
 		// normal
@@ -103,10 +110,10 @@ class WriteDataToExcel
 		// set value
 		$act->SetCellValue('A6', 'Instructor '.$obj->instructor);
 		$act->SetCellValue('A7', 'Institutes of '.$obj->institutes.'  School of '.$obj->school);
-		$act->SetCellValue('A8', 'Course Code '.$obj->subId);
-		$act->SetCellValue('A9', 'Course Title '.$obj->subjects);
-		$act->SetCellValue('A10', 'Number of Credit '.$obj->credit);
-		$act->SetCellValue('A11', 'Term / Academic Year '.$obj->term);
+		$act->SetCellValue('A8', 'Course Code : '.$obj->subId);
+		$act->SetCellValue('A9', 'Course Title : '.$obj->subjects);
+		$act->SetCellValue('A10', 'Number of Credit : '.$obj->credit);
+		$act->SetCellValue('A11', 'Term / Academic Year : '.$obj->term);
 
 		$act->SetCellValue('B13', 'Number of Student');
 		$act->SetCellValue('B14', $obj->student);
@@ -141,15 +148,14 @@ class WriteDataToExcel
 			$this->setCenter($col, $act);
 		}
 		$ix++;
-		$act->mergeCells('D'.$ix.':E'.$ix);
+		$act->mergeCells('C'.$ix.':E'.$ix);
 		$act->mergeCells('F'.$ix.':G'.$ix);
 
 		$act->SetCellValue('C'.$ix, "Total");
-		$act->SetCellValue('D'.$ix, $obj->min."-".$obj->max);
 		$act->SetCellValue('F'.$ix, $obj->student);
 		$act->SetCellValue('H'.$ix, 100);
 
-		$col = array('C'.$ix, 'D'.$ix, 'F'.$ix, 'H'.$ix);
+		$col = array('C'.$ix, 'F'.$ix, 'H'.$ix);
 		$this->setCenter($col, $act);
 
 		// set align center
@@ -225,15 +231,14 @@ class WriteDataToExcel
 			$this->setCenter($col, $act);
 		}
 		$ix++;
-		$act->mergeCells('D'.$ix.':E'.$ix);
+		$act->mergeCells('C'.$ix.':E'.$ix);
 		$act->mergeCells('F'.$ix.':G'.$ix);
 
 		$act->SetCellValue('C'.$ix, "รวม");
-		$act->SetCellValue('D'.$ix, $obj->min."-".$obj->max);
 		$act->SetCellValue('F'.$ix, $obj->student);
 		$act->SetCellValue('H'.$ix, 100);
 
-		$col = array('C'.$ix, 'D'.$ix, 'F'.$ix, 'H'.$ix);
+		$col = array('C'.$ix, 'F'.$ix, 'H'.$ix);
 		$this->setCenter($col, $act);
 
 		$col = array('A1','A2','A3','A4','A5','B7','D7','E7','F7','G7','H7','B8','D8','E8','F8','G8','H8',

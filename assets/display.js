@@ -50,6 +50,7 @@ xhttp.onreadystatechange = function() {
     if (this.status == 404) {
         document.getElementById('btnControl').innerHTML = '';
         document.cookie = "id=";
+        document.write("<div style='margin-top: 50px; text-align: center;'><h1>ไม่พบไฟล์หรือไฟล์ถูกลบ!</h1></div>");
     }
 }
 
@@ -88,6 +89,13 @@ function getCookie() {
     }
     return "";
 }
+
+window.onbeforeunload = function(e) {
+    var dialogText = 'Dialog text here';
+    var e = e | window.event;
+    e.returnValue = dialogText;
+    return dialogText;
+};
 
 // Chrome
 window.onunload = function() {
@@ -221,8 +229,8 @@ function showStatistics() {
         txt += '<td>' + data.numGrade[i] + '</td>';
         txt += '<td>' + data.gPercen[i] + '</td></tr>';
     }
-    txt += data.place == "sut" ? '<tr><td>Total</td>' : '<tr style="background-color: #f3f3f3;"><td style="padding-top: 6px;">รวม</td>';
-    txt += '<td>' + data.min + "-" + data.max + '</td><td>' + data.student + '</td><td>100</td></tr>';
+    txt += data.place == "sut" ? '<tr><td colspan="2">Total</td>' : '<tr style="background-color: #f3f3f3;"><td style="padding-top: 6px;" colspan="2">รวม</td>';
+    txt += '<td>' + data.student + '</td><td>100</td></tr>';
     document.getElementById('showStatistics').innerHTML = txt + "</table><br>";
     showNormal();
 }
