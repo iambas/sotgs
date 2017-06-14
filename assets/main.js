@@ -227,7 +227,7 @@ function validateForm() {
         txtSubId = "Course Code\n";
         txtSubject = "Course Title\n";
         txtTeacher = "Instructor \n";
-        txtFile = "\nPlease upload Excel file (.xlsx)\n";
+        txtFile = "\nPlease upload Excel file (.xlsx or .xls)\n";
         txtFill = "Please Fill : \n";
     } else {
         subId = document.getElementById('subId2');
@@ -237,7 +237,7 @@ function validateForm() {
         txtSubId = "รหัสวิชา\n";
         txtSubject = "ชื่อวิชา\n";
         txtTeacher = "ชื่อผู้สอน\n";
-        txtFile = "\nกรุณาอัพโหลดไฟล์ Excel (.xlsx)\n";
+        txtFile = "\nกรุณาอัพโหลดไฟล์ Excel (.xlsx หรือ .xls)\n";
         txtFill = "กรุณากรอกข้อมูล : \n";
     }
 
