@@ -49,7 +49,7 @@
                     <tr>
                         <td><label><b>Institutes of : </b></label></td>
                         <td>
-                            <select onchange="getMajor(this.value)" name="institutes">
+                            <select onchange="getInstitutes(this.value)" name="institutes">
                                 <option value="1">Science</option>
                                 <option value="2">Social Technology</option>
                                 <option value="3">Agricultural Technology</option>
@@ -75,11 +75,17 @@
                     </tr>
                     <tr>
                         <td><label><b>Course Code : </b></label></td>
-                        <td><input id="subId" class="typeahead" type="text" name="subId" placeholder="Course Code"></td>
+                        <td>
+                            <input id="subId" class="typeahead" type="text" name="subId" placeholder="Course Code">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                     <tr>
                         <td><label><b>Course Title : </b></label></td>
-                        <td><input id="subjects" class="typeahead" type="text" name="subjects" placeholder="Course Title"></td>
+                        <td>
+                            <input id="subjects" class="typeahead" type="text" name="subjects" placeholder="Course Title">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                     <tr>
                         <td><label><b>Number of Credit : </b></label></td>
@@ -89,13 +95,16 @@
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
-                                <option value="4">8</option>
+                                <option value="8">8</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td><label><b>Instructor : </b></label></td>
-                        <td><input id="instructor" class="typeahead" type="text" name="instructor" placeholder="Instructor"></td>
+                        <td>
+                            <input id="instructor" class="typeahead" type="text" name="instructor" placeholder="Instructor">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                 </table>
                 <br>
@@ -149,11 +158,17 @@
                     </tr>
                     <tr>
                         <td><label><b>รหัสวิชา : </b></label></td>
-                        <td><input id="subId2" class="typeahead" type="text" name="subId2" placeholder="รหัสวิชา"></td>
+                        <td>
+                            <input id="subId2" class="typeahead" type="text" name="subId2" placeholder="รหัสวิชา">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                     <tr>
                         <td><label><b>ชื่อวิชา : </b></label></td>
-                        <td><input id="subjects2" class="typeahead" type="text" name="subjects2" placeholder="ชื่อวิชา"></td>
+                        <td>
+                            <input id="subjects2" class="typeahead" type="text" name="subjects2" placeholder="ชื่อวิชา">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                     <tr>
                         <td><label><b>ระดับชั้น : </b></label></td>
@@ -161,7 +176,10 @@
                     </tr>
                     <tr>
                         <td><label><b>ชื่อผู้สอน : </b></label></td>
-                        <td><input id="instructor2" class="typeahead" type="text" name="instructor2" placeholder="ชื่อผู้สอน"></td>
+                        <td>
+                            <input id="instructor2" class="typeahead" type="text" name="instructor2" placeholder="ชื่อผู้สอน">
+                            <span class="d">*</span>
+                        </td>
                     </tr>
                 </table>
                 <br>

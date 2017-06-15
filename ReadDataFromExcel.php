@@ -38,6 +38,7 @@ class ReadDataFromExcel
 			if ($dataRow[$row]['A'] == '') {
 				break;
 			}
+			
 			$this->data[$row-1][0] = $dataRow[$row]['A'];
 			$this->data[$row-1][1] = $dataRow[$row]['B'];
 			$this->data[$row-1][2] = $dataRow[$row]['C'];

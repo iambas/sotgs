@@ -330,7 +330,6 @@ class CalGrade
 		$percentile[$n] = 0.5 * $freq[$n] / $this->numData;
 		for($i = $n-1; $i >= 0; $i--){
 			$percentile[$i] = ($cumFreq[$i+1] + 0.5 * $freq[$i]) / $this->numData;
-			//$percentile[$i] = sprintf("%.4f", $percentile[$i]);
 		}
 
 		return $percentile;
@@ -345,7 +344,6 @@ class CalGrade
 				//$z = $this->findZ($percentile[$i]); // z table
 				$z = $this->normSInv($percentile[$i]); // function in excel
 				$Tscore[$i] = $z * 10 + 50;
-				//$Tscore[$i] = sprintf("%.0f", $z * 10 + 50);
 				$this->z[$i] = $z;
 			}
 		} catch (Exception $e) {
@@ -525,13 +523,10 @@ class CalGrade
 		$t = $this->type;
 		$n = count($Tscore);
 		if ($t == 'eng8') {
-			//$range = sprintf("%.0f", ($Tscore[0] - $Tscore[$n-1]) / 8.0);
 			$range = ($Tscore[0] - $Tscore[$n-1]) / 8.0;
-			//if ($range < 0)   $range = -$range;
-
+			if ($range < 0)   $range = -$range;
 			$p = array();
 			for($i = 0; $i < 7; $i++){
-				//$p[$i] = sprintf("%.0f", $Tscore[0]) - ($i+1)*$range;
 				$p[$i] = $Tscore[0] - ($i+1)*$range;
 			}
 
@@ -542,7 +537,6 @@ class CalGrade
 					$i++;
 				}else{
 					for($j = 0; $j < $freq[$k]; $j++){
-						//$this->grade[$i] = $this->gradeEng8(sprintf("%.0f", $Tscore[$k]), $p, $this->data[$i][2]);
 						$this->grade[$i] = $this->gradeEng8($Tscore[$k], $p, $this->data[$i][2]);
 						$i++;
 					}
@@ -551,6 +545,7 @@ class CalGrade
 			}
 		}elseif ($t == 'eng6') {
 			$range = ($Tscore[0] - $Tscore[$n-1]) / 6.0;
+			if ($range < 0)   $range = -$range;
 			$p = array();
 			for($i = 0; $i < 7; $i++){
 				$p[$i] = $Tscore[0] - ($i+1)*$range;
@@ -571,6 +566,7 @@ class CalGrade
 			}
 		}elseif ($t == 'eng5') {
 			$range = ($Tscore[0] - $Tscore[$n-1]) / 5.0;
+			if ($range < 0)   $range = -$range;
 			$p = array();
 			for($i = 0; $i < 7; $i++){
 				$p[$i] = $Tscore[0] - ($i+1)*$range;
