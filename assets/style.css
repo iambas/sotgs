@@ -237,6 +237,10 @@ li:active {
     cursor: pointer;
 }
 
+.d {
+    color: red;
+}
+
 #example {
     text-decoration: underline;
     display: inline;

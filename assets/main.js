@@ -15,29 +15,23 @@ var substringMatcher = function(strs) {
     };
 };
 
-function search() {
-    $('#subjects').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 0
-    }, {
-        name: 'subjects',
-        source: substringMatcher(subjects)
-    });
-}
-search();
+$('#subjects').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 0
+}, {
+    name: 'subjects',
+    source: substringMatcher(subjects)
+});
 
-function search2() {
-    $('#subjects2').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 0
-    }, {
-        name: 'subjects',
-        source: substringMatcher(subjects)
-    });
-}
-search2();
+$('#subjects2').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 0
+}, {
+    name: 'subjects',
+    source: substringMatcher(subjects)
+});
 
 var place = "sut";
 $(function() {
@@ -46,7 +40,6 @@ $(function() {
         $("#infoOther").fadeOut(100);
         $('#btn2').removeClass('active');
         $(this).addClass('active');
-        getMajor('1');
         place = "sut";
         $('#sut').prop('disabled', false);
         $('#other').prop('disabled', true);
@@ -63,14 +56,6 @@ $(function() {
         e.preventDefault();
     });
 });
-
-
-// form
-var sut = document.getElementById('sut');
-var other = document.getElementById('other');
-
-var infoSut = document.getElementById('infoSut');
-var infoOther = document.getElementById('infoOther');
 
 // form grade type
 var tscore = document.getElementById('tscore');
@@ -155,7 +140,7 @@ function checkPoint(type) {
     }
 }
 
-function getMajor(m) {
+function getInstitutes(m) {
     var ma = [];
     switch (m) {
         case '1':
@@ -189,7 +174,7 @@ function getMajor(m) {
     }
     document.getElementById('school').innerHTML = txt + '</select>';
 }
-getMajor('1');
+getInstitutes('1');
 
 function checkSchool(v) {
     if (v == "Other") {
@@ -219,6 +204,7 @@ function validateForm() {
     var validate = true;
     var subId, subjects, instructor;
     var txtSubId, txtSubject, txtTeacher, txtFile, txtFill;
+    var c = false;
     if (place == "sut") {
         subId = document.getElementById('subId');
         subjects = document.getElementById('subjects');
@@ -244,23 +230,26 @@ function validateForm() {
     var txtAlert = '';
     if (subId.value == '') {
         validate = false;
+        c = true;
         txtAlert += txtSubId;
     }
 
     if (subjects.value == '') {
         validate = false;
+        c = true;
         txtAlert += txtSubject;
     }
 
     if (instructor.value == '') {
         validate = false;
+        c = true;
         txtAlert += txtTeacher;
     }
 
     if (document.getElementById('total').value != 100 && place == "sut") {
         if (validate) txtFill = "";
         validate = false;
-        txtAlert += "\nMarking Scheme Total not equal 100\n";
+        txtAlert += "\nMarking Scheme 'Total' not equal 100\n";
     }
 
     var myfile = document.getElementById('myfile');
@@ -268,6 +257,7 @@ function validateForm() {
     if (myfile.files.length == 0 || (t != "xlsx" && t != "xls")) {
         validate = false;
         txtAlert += txtFile;
+        if (!c) txtFill = '';
     }
 
     if (!validate) {
@@ -275,5 +265,4 @@ function validateForm() {
     }
 
     return validate;
-    //return true;
 }

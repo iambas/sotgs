@@ -1,6 +1,5 @@
 var xhttp;
 var ihttp;
-var shttp;
 var data;
 var numGrade = [];
 var grade = [];
@@ -45,6 +44,7 @@ xhttp.onreadystatechange = function() {
         showGradeChart();
         selNav('l0');
         showGradePercenChart();
+        showScoreChart();
     }
 
     if (this.status == 404) {
@@ -91,7 +91,7 @@ function getCookie() {
 }
 
 window.onbeforeunload = function(e) {
-    var dialogText = 'Dialog text here';
+    var dialogText = 'เมื่อปิดแท็บนี้ ไฟล์ที่โปรแกรมสร้างจะถูกลบ!';
     var e = e | window.event;
     e.returnValue = dialogText;
     return dialogText;
@@ -105,7 +105,6 @@ window.onunload = function() {
 
 // firefox
 $(function() {
-
     try {
         opera.setOverrideHistoryNavigationMode('compatible');
         history.navigationMode = 'compatible';
@@ -299,16 +298,19 @@ function showChart() {
     s.style.display = 'none';
     d.style.display = 'none';
 
-    var gn, gp;
+    var gn, gp, gs;
     if (data.place == "sut") {
         gn = 'Number of Student';
         gp = 'Percentage';
+        gs = 'Frequency of Score';
     } else {
-        gn = 'จำนวนคนที่ได้เกรดต่างๆ';
+        gn = 'จำนวนนักศึกษาที่ได้เกรดต่างๆ';
         gp = 'คิดเป็นร้อยละ';
+        gs = 'ความถี่ของคะแนน';
     }
     $('#gn').html(gn);
     $('#gp').html(gp);
+    $('#gs').html(gs);
 }
 
 function showGradeChart() {
@@ -335,6 +337,30 @@ function showGradePercenChart() {
             datasets: [{
                 backgroundColor: data.color,
                 data: gPercen
+            }]
+        }
+    });
+}
+
+function showScoreChart() {
+    var scoreFreq = [];
+    var freq = [];
+    var ln = data.showCal.length;
+    var i = -1;
+    var x = ln - 1;
+    while (++i < ln) {
+        scoreFreq[x] = data.showCal[i].scoreFreq;
+        freq[x--] = data.showCal[i].freq;
+    }
+    var ctx = document.getElementById("myScoreChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: scoreFreq,
+            datasets: [{
+                label: '',
+                data: freq,
+                backgroundColor: "#34495e"
             }]
         }
     });
