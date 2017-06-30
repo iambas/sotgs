@@ -102,7 +102,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Suphakrit Nakhabat');
+$pdf->SetAuthor('');
 $pdf->SetTitle('Score Distribution');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -304,6 +304,7 @@ $html =
 $pdf->writeHTML($html, true, false, true, false, '');
 
 //Close and output PDF document
-$pdf->Output('score_distribution.pdf', 'I');
+$name = "score_distribution-".$data->subId."-".$data->ty.".pdf";
+$pdf->Output($name, 'I');
 
 ?>

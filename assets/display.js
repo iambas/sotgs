@@ -41,14 +41,14 @@ xhttp.onreadystatechange = function() {
         checkPlace()
         showStatistics();
         show(50, 1);
-        showGradeChart();
         selNav('l0');
+
         showGradePercenChart();
+        showGradeChart();
         showScoreChart();
     }
 
     if (this.status == 404) {
-        document.getElementById('btnControl').innerHTML = '';
         document.cookie = "id=";
         document.write("<div style='margin-top: 50px; text-align: center;'><h1>ไม่พบไฟล์หรือไฟล์ถูกลบ!</h1></div>");
     }
@@ -63,7 +63,7 @@ function checkPlace() {
         l1 = "Show Grade";
         l2 = "Show Calculate";
         l3 = "Show Graph";
-        l4 = "Export Excel";
+        l4 = "Download";
         l5 = "Score Distribution";
     } else {
         l0 = "ข้อมูลทั่วไป";
@@ -300,12 +300,12 @@ function showChart() {
 
     var gn, gp, gs;
     if (data.place == "sut") {
-        gn = 'Number of Student';
+        gn = 'Frequency of Grade';
         gp = 'Percentage';
         gs = 'Frequency of Score';
     } else {
-        gn = 'จำนวนนักศึกษาที่ได้เกรดต่างๆ';
-        gp = 'คิดเป็นร้อยละ';
+        gn = 'ความถี่ของเกรด';
+        gp = 'คิดเป็นเปอร์เซ็นต์';
         gs = 'ความถี่ของคะแนน';
     }
     $('#gn').html(gn);
@@ -324,20 +324,122 @@ function showGradeChart() {
                 data: numGrade,
                 backgroundColor: data.color
             }]
+        },
+        options: {
+            hover: {
+                animationDuration: 0
+            },
+            animation: {
+                duration: 1,
+                onComplete: function() {
+                    var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function(dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        meta.data.forEach(function(bar, index) {
+                            var data = dataset.data[index];
+                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                        });
+                    });
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                enabled: false
+            },
+            scales: {
+                yAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: {
+                        display: true,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
     });
 }
 
 function showGradePercenChart() {
+    Chart.defaults.global.elements.arc.borderWidth = 1;
     var ctx = document.getElementById("myGradePercenChart").getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: grade,
             datasets: [{
                 backgroundColor: data.color,
                 data: gPercen
             }]
+        },
+        options: {
+            hover: {
+                animationDuration: 0
+            },
+            tooltips: {
+                enabled: true,
+                xAlign: "center",
+                yAlign: "top",
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var i = tooltipItem.index;
+                        var txt = [];
+                        txt[0] = "(" + grade[i] + " : " + numGrade[i] + ")";
+                        txt[1] = String(gPercen[i]) + "%";
+                        return txt;
+                    }
+                }
+            },
+            animation: {
+                duration: 1,
+                onComplete: function() {
+                    var ctx = this.chart.ctx;
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function(dataset) {
+
+                        for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                total = dataset._meta[Object.keys(dataset._meta)[0]].total,
+                                mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2,
+                                start_angle = model.startAngle,
+                                end_angle = model.endAngle,
+                                mid_angle = start_angle + (end_angle - start_angle) / 2;
+
+                            ctx.fillStyle = '#fff';
+                            var x = mid_radius * Math.cos(mid_angle);
+                            var y = mid_radius * Math.sin(mid_angle);
+                            var val = dataset.data[i];
+                            var label = "(" + grade[i] + ": " + numGrade[i] + ")";
+                            var percent = String(val) + "%";
+                            if (val != 0) {
+                                ctx.fillText(label, model.x + x, model.y + y - 15);
+                                ctx.fillText(percent, model.x + x, model.y + y + 5);
+                            }
+                        }
+                    });
+                }
+            }
         }
     });
 }
@@ -362,6 +464,56 @@ function showScoreChart() {
                 data: freq,
                 backgroundColor: "#34495e"
             }]
+        },
+        options: {
+            hover: {
+                animationDuration: 0
+            },
+            animation: {
+                duration: 1,
+                onComplete: function() {
+                    var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function(dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        meta.data.forEach(function(bar, index) {
+                            var data = dataset.data[index];
+                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                        });
+                    });
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                enabled: false
+            },
+            scales: {
+                yAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: {
+                        display: true,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: true
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
     });
 }

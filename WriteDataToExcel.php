@@ -56,6 +56,7 @@ class WriteDataToExcel
 		// sheet 1
 		$this->objPHPExcel->setActiveSheetIndex(0);
 		$act = $this->objPHPExcel->getActiveSheet();
+		$act->getDefaultRowDimension()->setRowHeight(20);
 		$act->setTitle('Info');
 		$act->getStyle('A:J')->getFont()->setName('TH SarabunPSK');
 		$act->getStyle('A:J')->getFont()->setSize(16);

@@ -7,9 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="assets/jquery.min.js"></script>
     <script src="assets/Chart.min.js"></script>
+    <script src="assets/anychart-bundle.min.js"></script>
+    <script src="assets/highcharts.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/style.css">
 
     <style>
+        #pie {
+            width: 100%;
+            height: 600px;
+            margin: 0;
+            padding: 0;
+        }
+        
         table.tb {
             border: 1px solid #888;
             border-collapse: collapse;
@@ -42,17 +51,17 @@
         <div id="showStatistics"></div>
         <div id="showChart" align="center" style="display: none;">
             <b><div id="gn"></div></b>
-            <div style="width: 60%;">
+            <div style="width: 750px; padding: 12px;">
                 <canvas id="myGradeChart"></canvas>
             </div>
             <br><br>
             <b><div id="gp"></div></b>
-            <div style="width: 50%;">
+            <div style="width: 550px;">
                 <canvas id="myGradePercenChart"></canvas>
             </div>
             <br><br>
             <b><div id="gs"></div></b>
-            <div style="width: 95%;">
+            <div style="width: 1300px; padding: 12px;">
                 <canvas id="myScoreChart"></canvas>
             </div>
         </div>

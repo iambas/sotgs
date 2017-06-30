@@ -342,7 +342,7 @@ class CalGrade
 			for($i = 0; $i < $n; $i++){
 				//$z = $this->findZAtKnownArea($percentile[$i]); // formular
 				//$z = $this->findZ($percentile[$i]); // z table
-				$z = $this->normSInv($percentile[$i]); // function in excel
+				$z = $this->NormSInv($percentile[$i]); // function in excel
 				$Tscore[$i] = $z * 10 + 50;
 				$this->z[$i] = $z;
 			}
@@ -481,6 +481,7 @@ class CalGrade
 		$a4 = 138.357751867269;
 		$a5 = -30.6647980661472;
 		$a6 = 2.50662827745924;
+
 		$b1 = -54.4760987982241;
 		$b2 = 161.585836858041;
 		$b3 = -155.698979859887;
@@ -493,10 +494,12 @@ class CalGrade
 		$c4 = -2.54973253934373;
 		$c5 = 4.37466414146497;
 		$c6 = 2.93816398269878;
+
 		$d1 = 7.78469570904146E-03;
 		$d2 = 0.32246712907004;
 		$d3 = 2.445134137143;
 		$d4 =  3.75440866190742;
+		
 		$p_low = 0.02425;
 		$p_high = 1 - $p_low;
 		$q = 0;
