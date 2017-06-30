@@ -248,20 +248,6 @@ function setDataJson()
 		$txtJson .= ($i != $len-1) ? ', ' : '], ';
 	}
 
-	$txtJson .= '"pie":[';
-	for($i = 0; $i < $len-1; $i++){
-		$arr = explode(":", $arrGtype[$i+1]);
-		$txtJson .= '{"x":"'.$arr[1].'", "value":"'.$numGrade[$i].'","fill":"'.$color[$i].'"}';
-		$txtJson .= ($i != $len-2) ? ', ' : '], ';
-	}
-
-	$txtJson .= '"pie2":[';
-	for($i = 0; $i < $len-1; $i++){
-		$arr = explode(":", $arrGtype[$i+1]);
-		$txtJson .= '{"name":"'.$arr[1].'", "y":'.intval($numGrade[$i]).', "color":"'.$color[$i].'"}';
-		$txtJson .= ($i != $len-2) ? ', ' : '], ';
-	}
-
 	$txtJson .= '"gPercen":[';
 	for ($i = 0; $i < $len-1; $i++) {
 		$txtJson .= '"'.sprintf("%.2f", ($numGrade[$i] * 100 / $n)).'"';
@@ -321,7 +307,6 @@ function setDataJson()
 		if ($out != "") { $out .= ","; }
 		$out .= '{"id":"'.$dataSort[$i][0].'", ';
 		$out .= '"name":"'.$dataSort[$i][1].'", ';
-		//$out .=  '"score":"'.$dataSort[$i][2].'", ';
 		$out .=  '"score":"'.$sc.'", ';
 		$out .= '"grade":"'.$grade[$i].'"}';
 	}

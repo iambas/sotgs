@@ -142,7 +142,7 @@ $html =
     <tr>
         <td width="70%">
             <br>
-            <table width="600" border="0">
+            <table width="630" border="0">
                 <tr>
                     <td width="150"></td>
                     <td align="center" style="line-height: 90%;">
@@ -167,7 +167,7 @@ $html =
                 </tr>
                 <tr>
                     <td align="right">Course Title &nbsp;</td>
-                    <td style="border-bottom: 1px solid #000; text-align: center;">'. $data->subjects .'</td>
+                    <td style="border-bottom: 1px solid #000; text-align: center;">'. $data->subId . " " . $data->subjects .'</td>
                 </tr>
                 <tr>
                     <td align="right">Number of Credit &nbsp;</td>
