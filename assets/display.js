@@ -181,18 +181,18 @@ function showStatistics() {
         else
             txt += '<img src="assets/sut_logo.jpg" width="73" height="95"><br>';
 
-        txt += "Instructor  " + data.instructor + "<br>";
         txt += "Institutes of " + data.institutes + "&nbsp;&nbsp;&nbsp;";
         txt += "School of " + data.school + "<br>";
-        txt += "Course Code : " + data.subId + "<br>";
-        txt += "Course Title : " + data.subjects + "<br>";
+        txt += "Course Title : " + data.subId + " " + data.subjects + "<br>";
         txt += "Number of Credit : " + data.credit + "<br>";
+        txt += "Instructor  " + data.instructor + "<br>";
         txt += "Term/Academic Year : " + data.term + "<br><br>";
     } else {
-        txt += "ผู้สอน " + data.instructor + "<br>";
-        txt += "วิชา " + data.subjects + "<br>";
+        txt += "รหัสวิชา " + data.subId + "<br>";
+        txt += "ชื่อวิชา " + data.subjects + "<br>";
         if (data.level != "")
             txt += "ระดับชั้น" + data.level + "<br>";
+        txt += "อาจารย์ผู้สอน " + data.instructor + "<br>";
         txt += "ภาคการศึกษาที่  " + data.term + "<br><br>";
     }
     txt += '</b>';

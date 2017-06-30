@@ -91,7 +91,6 @@ class WriteDataToExcel
 		$objDrawing->setWorksheet($this->objPHPExcel->getActiveSheet());
 
 		// normal
-		$act->mergeCells('A6:J6');
 		$act->mergeCells('A7:J7');
 		$act->mergeCells('A8:J8');
 		$act->mergeCells('A9:J9');
@@ -109,11 +108,11 @@ class WriteDataToExcel
 		$act->mergeCells('F16:G16');
 
 		// set value
-		$act->SetCellValue('A6', 'Instructor '.$obj->instructor);
+		
 		$act->SetCellValue('A7', 'Institutes of '.$obj->institutes.'  School of '.$obj->school);
-		$act->SetCellValue('A8', 'Course Code : '.$obj->subId);
-		$act->SetCellValue('A9', 'Course Title : '.$obj->subjects);
-		$act->SetCellValue('A10', 'Number of Credit : '.$obj->credit);
+		$act->SetCellValue('A8', 'Course Title : '.$obj->subId." ".$obj->subjects);
+		$act->SetCellValue('A9', 'Number of Credit : '.$obj->credit);
+		$act->SetCellValue('A10', 'Instructor '.$obj->instructor);
 		$act->SetCellValue('A11', 'Term / Academic Year : '.$obj->term);
 
 		$act->SetCellValue('B13', 'Number of Student');
@@ -186,13 +185,14 @@ class WriteDataToExcel
 		$act->mergeCells('D10:E10');
 		$act->mergeCells('F10:G10');
 		
-		$act->SetCellValue('A1', 'ผู้สอน '.$obj->instructor);
-		$act->SetCellValue('A2', 'รหัสวิชา '.$obj->subId);
-		$act->SetCellValue('A3', 'วิชา '.$obj->subjects);
+		$act->SetCellValue('A1', 'รหัสวิชา '.$obj->subId);
+		$act->SetCellValue('A2', 'ชื่อวิชา '.$obj->subjects);
 		if($obj->level != ''){
-			$act->SetCellValue('A4', 'ระดับชั้น '.$obj->level);
+			$act->SetCellValue('A3', 'ระดับชั้น'.$obj->level);
+			$act->SetCellValue('A4', 'อาจารย์ผู้สอน '.$obj->instructor);
 			$act->SetCellValue('A5', 'ภาคการศึกษา '.$obj->term);
 		}else{
+			$act->SetCellValue('A3', 'อาจารย์ผู้สอน '.$obj->instructor);
 			$act->SetCellValue('A4', 'ภาคการศึกษา '.$obj->term);
 		}
 		
