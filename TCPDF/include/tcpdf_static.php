@@ -393,6 +393,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function getFormattedDate($time) {
+		date_default_timezone_set("Asia/Bangkok");
 		return substr_replace(date('YmdHisO', intval($time)), '\'', (0 - 2), 0).'\'';
 	}
 

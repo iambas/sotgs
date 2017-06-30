@@ -69,6 +69,7 @@ if(isset($_FILES['filepoint'])){
 		$gtype = $_REQUEST['gtype'];
 		$arrGtype = explode(", ", $gtype);
 
+		$gl = sizeof($arrGtype);
 		if ($place == 'sut'){
 			$len = sizeof($arrGtype) + 7;
 			array_push($arrGtype, "i:I");
@@ -85,7 +86,11 @@ if(isset($_FILES['filepoint'])){
 		$type = $arrGtype[0];
 		$point = array();
 		getPoint();
-		getReadData();
+		if(!getReadData()){
+			echo "<center><h1>ข้อมูลในไฟล์ excel ไม่ถูกต้อง<br>กรุณาตรวจสอบแล้วลองอีกครั้ง</h1></center>";
+			unlink($filename);
+			exit();
+		}
 		findClassGpaAndColor();
 		setDataJson();
 		getStringRandom();
@@ -148,6 +153,7 @@ function getReadData()
 
 	// read data from file
   	$excel = new ReadDataFromExcel($filename);
+	if(!$excel->getOk()) return false;
 	$data = $excel->getData();
 	$n = count($data);
 
@@ -169,6 +175,8 @@ function getReadData()
 		$percentile = $cg->getPercentile();
 		$Tscore = $cg->getTscore();
 	}
+
+	return true;
 }
 
 function findClassGpaAndColor()
@@ -201,13 +209,14 @@ function setDataJson()
 	global $txtJson, $place, $term, $year, $school, $institutes, $subjects, $instructor;
 	global $n, $dataSort, $cg, $classGPA, $len, $arrGtype, $numGrade, $grade;
 	global $freq, $cumFreq, $percentile, $Tscore, $scoreFreq;
-	global $color, $ctype;
+	global $color, $ctype, $gl;
 
 	global $credit, $attendance, $midterm, $assignment, $report, $final, $total, $level, $subId;
 
 	$txtJson = "{";
 	$txtJson .= '"place":"'.$place.'", ';
 	$txtJson .= '"term":"'.$term.'/'.$year.'", ';
+	$txtJson .= '"ty":"'.$term.'-'.$year.'", ';
 	$txtJson .= '"institutes":"'.$institutes.'", ';
 	$txtJson .= '"school":"'.$school.'", ';
 	$txtJson .= '"credit":'.$credit.', ';
@@ -239,6 +248,20 @@ function setDataJson()
 		$txtJson .= ($i != $len-1) ? ', ' : '], ';
 	}
 
+	$txtJson .= '"pie":[';
+	for($i = 0; $i < $len-1; $i++){
+		$arr = explode(":", $arrGtype[$i+1]);
+		$txtJson .= '{"x":"'.$arr[1].'", "value":"'.$numGrade[$i].'","fill":"'.$color[$i].'"}';
+		$txtJson .= ($i != $len-2) ? ', ' : '], ';
+	}
+
+	$txtJson .= '"pie2":[';
+	for($i = 0; $i < $len-1; $i++){
+		$arr = explode(":", $arrGtype[$i+1]);
+		$txtJson .= '{"name":"'.$arr[1].'", "y":'.intval($numGrade[$i]).', "color":"'.$color[$i].'"}';
+		$txtJson .= ($i != $len-2) ? ', ' : '], ';
+	}
+
 	$txtJson .= '"gPercen":[';
 	for ($i = 0; $i < $len-1; $i++) {
 		$txtJson .= '"'.sprintf("%.2f", ($numGrade[$i] * 100 / $n)).'"';
@@ -253,6 +276,8 @@ function setDataJson()
 
 	$mx = $cg->getMx();
 	$mn = $cg->getMn();
+	$mx[0] = 100;
+	$mn[$gl-2] = 0;
 	$txtJson .= '"range":[';
 	for ($i = 0; $i < $len-1; $i++) {
 		if(isset($mx[$i])){
@@ -309,7 +334,8 @@ function getStringRandom()
 	global $str, $subId, $txtJson, $json, $term, $year;
 	$alpha = str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	$digit = "0123456789";
-	$str = $subId."-".$term."-".$year."-".substr($alpha[0].str_shuffle($alpha.$digit), 0, 6);
+	$ran = md5(substr($alpha[0].str_shuffle($alpha.$digit), 0, 10));
+	$str = $subId."-".$term."-".$year."-".$ran;
 	$json = $str.".json";
 	setcookie("id", $str);
 }

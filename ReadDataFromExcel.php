@@ -12,8 +12,9 @@ class ReadDataFromExcel
 	private $objWorksheet;
 	private $highestRow;
 	private $highestColumn;
-
 	private $data = array();
+
+	private $ok = true;
 
 	function __construct($filename)
 	{
@@ -35,14 +36,33 @@ class ReadDataFromExcel
 		for ($row = 1; $row <= $this->highestRow; ++$row) {
 			$dataRow = $this->objWorksheet->rangeToArray('A'.$row.':'.$this->highestColumn.$row, null, true, true, true);
 
-			if ($dataRow[$row]['A'] == '') {
+			error_reporting(0);
+			
+			$a = $dataRow[$row]['A'];
+			$b = $dataRow[$row]['B'];
+			$c = $dataRow[$row]['C'];
+
+			if ($row == 1 && $a == '' && $b == '' && $c == '') {
+				$this->ok = false;
+				break;
+			}
+
+			if($a == '' && $b == '' && $c == '')
+				break;
+
+			if(strlen($c) > 2 || $b == ''){
+				$this->ok = false;
 				break;
 			}
 			
-			$this->data[$row-1][0] = $dataRow[$row]['A'];
-			$this->data[$row-1][1] = $dataRow[$row]['B'];
-			$this->data[$row-1][2] = $dataRow[$row]['C'];
+			$this->data[$row-1][0] = $a;
+			$this->data[$row-1][1] = $b;
+			$this->data[$row-1][2] = $c;
 		}
+	}
+
+	public function getOk(){
+		return $this->ok;
 	}
 
 	public function getData()
