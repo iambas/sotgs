@@ -314,12 +314,20 @@ function setDataJson()
 	$txtJson .= "}";
 }
 
+function random($n)
+{
+	$ran = '';
+	while($n-- > 0){
+		$alpha = str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz");
+		$ran .= $alpha[0];
+	}
+	return $ran;
+}
+
 function getStringRandom()
 {
 	global $str, $subId, $txtJson, $json, $term, $year;
-	$alpha = str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	$digit = "0123456789";
-	$ran = md5(substr($alpha[0].str_shuffle($alpha.$digit), 0, 10));
+	$ran = random(32);
 	$str = $subId."-".$term."-".$year."-".$ran;
 	$json = $str.".json";
 	setcookie("id", $str);
