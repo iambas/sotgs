@@ -27,8 +27,27 @@ if(!isset($_REQUEST['id'])){
 	
 	
 	// show Grade, Range, No. of Student, %
-    foreach($data->range as $k => $v){
-        if ($v == "0-101"){
+    // foreach($data->range as $k => $v){
+    //     if ($v == "0-101"){
+    //         $v = "-";
+    //     }
+    //     $txtGrade .= "<tr>
+    //                     <td></td>
+    //                     <td height=\"25\" style=\"border: 1px solid #000; text-align: center;\">".$data->grade[$k]."</td>
+    //                     <td style=\"border: 1px solid #000; text-align: center;\">$v</td>
+    //                     <td style=\"border: 1px solid #000; text-align: center;\">".$data->numGrade[$k]."</td>
+    //                     <td style=\"border: 1px solid #000; text-align: center;\">".$data->gPercen[$k]."</td>
+    //                 </tr>" ;
+    //     $cnt++;
+    // }
+    foreach($data->numGrade as $k => $v){
+        $v = "";
+        try{
+            $v = $data->range[$k];
+            if ($v == "0-101"){
+                $v = "-";
+            }
+        }catch(Exception $er){
             $v = "-";
         }
         $txtGrade .= "<tr>

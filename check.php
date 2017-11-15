@@ -209,7 +209,7 @@ function setDataJson()
 	global $txtJson, $place, $term, $year, $school, $institutes, $subjects, $instructor;
 	global $n, $dataSort, $cg, $classGPA, $len, $arrGtype, $numGrade, $grade;
 	global $freq, $cumFreq, $percentile, $Tscore, $scoreFreq;
-	global $color, $ctype, $gl;
+	global $color, $ctype, $gl, $point;
 
 	global $credit, $attendance, $midterm, $assignment, $report, $final, $total, $level, $subId;
 
@@ -260,23 +260,25 @@ function setDataJson()
 		$txtJson .= ($i != count($color)-1) ? ', ' : '], ';
 	}
 
-	$mx = $cg->getMx();
-	$mn = $cg->getMn();
-	$mx[0] = 100;
-	$mn[$gl-2] = 0;
-	$txtJson .= '"range":[';
-	for ($i = 0; $i < $len-1; $i++) {
-		if(isset($mx[$i])){
-			$txtJson .= '"'.$mn[$i].'-'.$mx[$i].'"';
-			$txtJson .= ($i == $len-2)? '], ' : ', ';	
-		}else{	
-			$txtJson .= ($i == $len-2)? '"-"], ' : '"-", ';
-		}
-	}
+	
 
 	$z = $cg->getZ();
 	$out = '';
 	if ($ctype == 'tscore') {
+		$mx = $cg->getMx();
+		$mn = $cg->getMn();
+		$mx[0] = 100;
+		$mn[$gl-2] = 0;
+		$txtJson .= '"range":[';
+		for ($i = 0; $i < $len-1; $i++) {
+			if(isset($mx[$i])){
+				$txtJson .= '"'.$mn[$i].'-'.$mx[$i].'"';
+				$txtJson .= ($i == $len-2)? '], ' : ', ';	
+			}else{	
+				$txtJson .= ($i == $len-2)? '"-"], ' : '"-", ';
+			}
+		}
+
 		$nf = count($freq);
 		$out = '';
 		for($i = 0; $i < $nf; $i++){
@@ -290,6 +292,30 @@ function setDataJson()
 		}
 		$txtJson .= '"ctype": "tscore", "showCal":['.$out.'], ';
 	}else{
+		$np = count($point);
+		$txtJson .= '"range":[';
+		// for ($i = 0; $i < $np; $i++) {
+		// 	if($i == 0)
+		// 		$txtJson .= '"'.$point[$i].'-100",';
+		// 	elseif($i == $np-1)
+		// 		$txtJson .= '"0-'.($point[$i-1] - 1).'"],';
+		// 	else
+		// 		$txtJson .= '"'.$point[$i].'-'.($point[$i-1] - 1).'",';
+		// }
+
+		for ($i = 0; $i < $len-1; $i++) {
+			if(isset($point[$i])){
+				if($i == 0)
+					$txtJson .= '"'.$point[$i].'-100",';
+				elseif($i == $len-2)
+					$txtJson .= '"0-'.($point[$i-1] - 1).'"],';
+				else
+					$txtJson .= '"'.$point[$i].'-'.($point[$i-1] - 1).'",';
+			}else{
+				$txtJson .= ($i == $len-2)? '"-"], ' : '"-", ';
+			}
+		}
+
 		$nf = count($freq);
 		$out = '';
 		for($i = 0; $i < $nf; $i++){

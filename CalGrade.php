@@ -93,6 +93,9 @@ class CalGrade
 		}elseif($s == 'X'){
 			$g = 'X';
 			$this->numGrade[$ix+6]++;
+		}elseif($s == 'F'){
+			$g = 'F';
+			$this->setNumMxMn($ix-1, 0);
 		}
 		return $g;
 	}
