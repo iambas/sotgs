@@ -24,30 +24,11 @@ if(!isset($_REQUEST['id'])){
         $img = '<img src="assets/logo.png" width="95" height="95">';
     else
         $img = '<img src="assets/sut_logo.jpg" width="73" height="95">';
-	
+
 	
 	// show Grade, Range, No. of Student, %
-    // foreach($data->range as $k => $v){
-    //     if ($v == "0-101"){
-    //         $v = "-";
-    //     }
-    //     $txtGrade .= "<tr>
-    //                     <td></td>
-    //                     <td height=\"25\" style=\"border: 1px solid #000; text-align: center;\">".$data->grade[$k]."</td>
-    //                     <td style=\"border: 1px solid #000; text-align: center;\">$v</td>
-    //                     <td style=\"border: 1px solid #000; text-align: center;\">".$data->numGrade[$k]."</td>
-    //                     <td style=\"border: 1px solid #000; text-align: center;\">".$data->gPercen[$k]."</td>
-    //                 </tr>" ;
-    //     $cnt++;
-    // }
-    foreach($data->numGrade as $k => $v){
-        $v = "";
-        try{
-            $v = $data->range[$k];
-            if ($v == "0-101"){
-                $v = "-";
-            }
-        }catch(Exception $er){
+    foreach($data->range as $k => $v){
+        if ($v == "0-101"){
             $v = "-";
         }
         $txtGrade .= "<tr>
@@ -59,6 +40,7 @@ if(!isset($_REQUEST['id'])){
                     </tr>" ;
         $cnt++;
     }
+    
     $br = "";
     if($cnt == 5)   $br = "<br><br><br><br><br>";
     elseif($cnt == 6) $br = "<br><br><br>";

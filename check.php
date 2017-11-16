@@ -260,8 +260,6 @@ function setDataJson()
 		$txtJson .= ($i != count($color)-1) ? ', ' : '], ';
 	}
 
-	
-
 	$z = $cg->getZ();
 	$out = '';
 	if ($ctype == 'tscore') {
@@ -292,17 +290,7 @@ function setDataJson()
 		}
 		$txtJson .= '"ctype": "tscore", "showCal":['.$out.'], ';
 	}else{
-		$np = count($point);
 		$txtJson .= '"range":[';
-		// for ($i = 0; $i < $np; $i++) {
-		// 	if($i == 0)
-		// 		$txtJson .= '"'.$point[$i].'-100",';
-		// 	elseif($i == $np-1)
-		// 		$txtJson .= '"0-'.($point[$i-1] - 1).'"],';
-		// 	else
-		// 		$txtJson .= '"'.$point[$i].'-'.($point[$i-1] - 1).'",';
-		// }
-
 		for ($i = 0; $i < $len-1; $i++) {
 			if(isset($point[$i])){
 				if($i == 0)

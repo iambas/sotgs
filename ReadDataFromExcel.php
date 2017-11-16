@@ -50,7 +50,7 @@ class ReadDataFromExcel
 			if($a == '' && $b == '' && $c == '')
 				break;
 
-			if(strlen($c) > 2 || $b == ''){
+			if(strlen($c) > 3 || $b == ''){
 				$this->ok = false;
 				break;
 			}
